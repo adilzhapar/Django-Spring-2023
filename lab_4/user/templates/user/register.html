@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel='stylesheet' href='{% static "css/index.css" %}' />
+    <title>Register</title>
+  </head>
+  <body>
+    {% block content %}
+        {% if not request.user.is_authenticated %}
+        <div class="main" style='margin-top:30px;'>
+            <form class="main" method='POST'>{% csrf_token %}
+                {{ form.as_p }}
+                <button type='submit'>Register</button>
+            </form>
+            <p>Already have an account? Please <a href='/login'>Login</a></p>
+        </div>
+        {% else %}
+        <p>You're already logged in and cannot register. Would you like to <a href='/logout/'>logout</a>?</p>
+        {% endif %}
+    {% endblock content %}
+  </body>
+</html>
+
