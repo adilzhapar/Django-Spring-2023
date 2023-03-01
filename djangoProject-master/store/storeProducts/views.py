@@ -23,20 +23,17 @@ def products(request, category_id=None):
         products = Product.objects.all()
 
     paginator = Paginator(products, 3)
-    page = request.GET.get('page', None)
-    if page == None or page == "":
-        page = 1
+    page_number = request.GET.get('page', 1)
 
     try:
-        products = paginator.page(page)
+        page = paginator.page(page_number)
     except EmptyPage:
-        products = paginator.page(paginator.num_pages)
+        page = paginator.page(paginator.num_pages)
 
     context = {
         'title' : 'storeApp',
-        'products' : products,
+        'products' : page,
         'categories' : ProductCategory.objects.all(),
-        'page': page
     }
     return render(request, 'storeProducts/products.html', context)
 

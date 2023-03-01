@@ -116,7 +116,11 @@
                     <div class="card h-100">
                         <a href="#">
                             <img class="card-img-top"
-                                 src= {{ product.image }}
+                            src = "{% if product.image %}
+                                    {{product.image.url }}
+                                {% else %}
+                                    {% static 'vendor/img/users/default_avatar.jpg' %}
+                                {% endif %}"
                                  alt="">
                         </a>
                         <div class="card-body">
@@ -142,18 +146,20 @@
 
             <nav aria-label="Page navigation example">
                 <ul class="pagination justify-content-center">
-                    {% if page.has_previous %}
+                    {% if products.has_previous %}
                     <li class="page-item ">
-                        <a class="page-link" href="?page={{ page.previous_page_number }}">Previous</a>
+                        <a class="page-link" href="?page={{ products.previous_page_number }}">Previous</a>
+                    </li>
+                    {% endif %}
+                    
+                    <li class="page-item"><a class="page-link" href="#">Page {{ products.number }} of {{ products.paginator.num_pages }}</a></li>
+                    
+                    {% if products.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ products.next_page_number }}">Next</a>
                     </li>
                     {% endif %}
 
-                    <li class="page-item"><a class="page-link" href="#">Page {{ page.number }} of {{ page.paginator.num_pages }}.</a></li>
-
-
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{ page.next_page_number }}">Next</a>
-                    </li>
                 </ul>
             </nav>
 
